@@ -1,7 +1,7 @@
 import { LitElement, html, css } from "lit";
 import { property, customElement } from "lit/decorators.js";
 import {
-  format,
+  formatDate,
   startOfMonth,
   endOfMonth,
   eachDayOfInterval,
@@ -9,11 +9,12 @@ import {
   isBefore,
   isAfter,
   addDays,
-  type Day,
   subDays,
-} from "date-fns";
-import { getDay, isSameMonth } from "date-fns/fp";
-import { LocaleUtils } from "./locale.utils";
+  getDay,
+  isSameMonth,
+} from "../date.utils";
+
+type Day = 0 | 1 | 2 | 3 | 4 | 5 | 6;
 
 @customElement("col-cal-dates")
 export class ColCalDates extends LitElement {
@@ -194,9 +195,7 @@ export class ColCalDates extends LitElement {
                   ? "selected"
                   : ""} ${isDisabled ? "disabled" : ""}"
                 @click=${() => this.handleDateSelect(date)}
-                aria-label=${format(date, "PPP", {
-                  locale: new LocaleUtils(this.locale).currentLocale(),
-                })}
+                aria-label=${formatDate(date, "PPP", this.locale)}
                 role="gridcell"
               >
                 ${date.getDate()}

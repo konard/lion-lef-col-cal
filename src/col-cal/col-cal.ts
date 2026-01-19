@@ -1,15 +1,15 @@
 import { LitElement, html } from "lit";
 import { property, state, customElement } from "lit/decorators.js";
 import "@awesome.me/webawesome/dist/components/popover/popover.js";
-import "./col-cal-header.ts";
-import "./col-cal-dates.ts";
-import "./col-cal-months.ts";
-import "./col-cal-years.ts";
-import type { MonthNumber } from "./col-cal.type.ts";
-import { createDateFromMonthNumber, getMonths } from "./date.utils.ts";
+import "../col-cal-header/col-cal-header.ts";
+import "../col-cal-dates/col-cal-dates.ts";
+import "../col-cal-months/col-cal-months.ts";
+import "../col-cal-years/col-cal-years.ts";
+import type { MonthNumber } from "../col-cal.type.ts";
+import { createDateFromMonthNumber, getMonths } from "../date.utils.ts";
 import { createRef, ref, type Ref } from "lit/directives/ref.js";
 import type WaPopover from "@awesome.me/webawesome/dist/components/popover/popover.js";
-import { insertSlotsByName } from "./lightdom.utils.ts";
+import { insertSlotsByName } from "../lightdom.utils.ts";
 
 @customElement("col-cal")
 export class ColCal extends LitElement {

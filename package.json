@@ -1,6 +1,6 @@
 {
   "name": "col-cal",
-  "version": "2.0.0-alpha.1",
+  "version": "2.0.0-alpha.2",
   "type": "module",
   "main": "./dist/col-cal.js",
   "scripts": {
@@ -17,7 +17,6 @@
   },
   "dependencies": {
     "@awesome.me/webawesome": "^3.0.0-beta.3",
-    "date-fns": "^4.1.0",
     "lit": "^3.3.0"
   },
   "devDependencies": {

@@ -1,8 +1,6 @@
-import { addMonths, format, isAfter, isBefore, subMonths } from "date-fns";
 import { css, html, LitElement } from "lit";
 import { customElement, property, state } from "lit/decorators.js";
-import { getWeeks } from "./date.utils";
-import { LocaleUtils } from "./locale.utils";
+import { getWeeks, addMonths, formatDate, isAfter, isBefore, subMonths } from "../date.utils";
 
 @customElement("col-cal-header")
 export class ColCalHeader extends LitElement {
@@ -112,9 +110,7 @@ export class ColCalHeader extends LitElement {
         <slot class="header__date" name="header-date" part="header-date"
         data-testid="${`${this.dataTestid}-HeaderDate`}"
           >
-          ${format(this._date, "MMMM yyyy", {
-            locale: new LocaleUtils(this.locale).currentLocale(),
-          })}
+          ${formatDate(this._date, "MMMM yyyy", this.locale)}
         </slot>
         <div class="header__buttons"
         data-testid="${`${this.dataTestid}-Header-Buttons`}"
