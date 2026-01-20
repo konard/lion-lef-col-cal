@@ -1,7 +1,6 @@
-import { LitElement, html, css } from "lit";
+import { LitElement, html } from "lit";
 import { property, customElement } from "lit/decorators.js";
 import {
-  formatDate,
   startOfMonth,
   endOfMonth,
   eachDayOfInterval,
@@ -11,13 +10,16 @@ import {
   addDays,
   subDays,
   getDay,
-  isSameMonth,
 } from "../date.utils";
+import { colCalDatesStyles } from "./col-cal-dates.css";
+import { renderColCalDates } from "./col-cal-dates.html";
 
 type Day = 0 | 1 | 2 | 3 | 4 | 5 | 6;
 
 @customElement("col-cal-dates")
 export class ColCalDates extends LitElement {
+  static styles = colCalDatesStyles;
+
   @property({ type: Date })
   month: Date | null = null;
 
@@ -36,67 +38,6 @@ export class ColCalDates extends LitElement {
   @property({ type: Array }) disabledDates: Date[] = [];
   @property({ type: Array })
   events: Array<{ date: Date; title: string }> = [];
-
-  static get styles() {
-    return css`
-      :host {
-        --col-cal-day-bg: #ffffff;
-        --col-cal-day-hover-bg: #77a6ff;
-        --col-cal-day-hover-color: #ffffff;
-        --col-cal-day-selected-bg: #f2f7ff;
-        --col-cal-day-selected-color: #77a6ff;
-        --col-cal-day-disable-color: #d5d5d6;
-        --col-cal-day-radius: 16px;
-        --col-cal-day-padding: 7px 8.7px;
-      }
-
-      .week {
-        display: grid;
-        grid-template-columns: repeat(7, 1fr);
-        gap: var(--col-cal-day-gap);
-        margin-bottom: var(--col-cal-day-bottom);
-      }
-
-      .day-header {
-        text-align: center;
-        color: var(--day-header-color);
-      }
-
-      .day {
-        text-align: center;
-        font-size: var(--col-cal-day-font-size, 14px);
-        padding: var(--col-cal-day-padding);
-        border-radius: var(--col-cal-day-radius, 0);
-        apperance: none;
-        border: 0;
-        outline: 0;
-        background: transparent;
-        cursor: pointer;
-        position: relative;
-      }
-
-      .day:hover {
-        color: var(--col-cal-day-hover-color, white);
-        background: var(--col-cal-day-hover-bg, #f0f0f0);
-      }
-
-      .day.selected {
-        background: var(--col-cal-day-selected-bg, #007bff);
-        color: var(--col-cal-day-selected-color);
-      }
-
-      .day.disabled {
-        color: var(--col-cal-day-disable-color, #cccccc);
-        cursor: default;
-        &:hover {
-          background-color: var(
-            --col-cal-day-disable-background-color,
-            transparent
-          );
-        }
-      }
-    `;
-  }
 
   private getPrevMonthDays(month: Date): Date[] {
     const start = startOfMonth(month);
@@ -153,58 +94,47 @@ export class ColCalDates extends LitElement {
     ];
   }
 
-  private isDateDisabled(date: Date) {
+  private isDateDisabled = (date: Date): boolean => {
     if (this.minDate) {
-      this.minDate.setHours(0, 0, 0, 0);
-      if (isBefore(date, this.minDate)) {
+      const minDateCopy = new Date(this.minDate);
+      minDateCopy.setHours(0, 0, 0, 0);
+      if (isBefore(date, minDateCopy)) {
         return true;
       }
     }
 
     if (this.maxDate) {
-      this.maxDate.setHours(0, 0, 0, 0);
-      if (isAfter(date, this.maxDate)) {
+      const maxDateCopy = new Date(this.maxDate);
+      maxDateCopy.setHours(0, 0, 0, 0);
+      if (isAfter(date, maxDateCopy)) {
         return true;
       }
-      return this.disabledDates.some((d) => isSameDay(date, d));
     }
-  }
 
-  private handleDateSelect(date: Date) {
+    return this.disabledDates.some((d) => isSameDay(date, d));
+  };
+
+  private handleDateSelect = (date: Date): void => {
     if (!this.isDateDisabled(date)) {
       this.selectedDate = date;
       this.dispatchEvent(new CustomEvent("change-date", { detail: date }));
     }
-  }
+  };
 
   render() {
     const days = this.getMonthDays();
-    if (days) {
-      return html`
-        <div class="week" data-testid="${this.dataTestid}">
-          ${days.map((date) => {
-            const isSelected =
-              isSameMonth(date, this.selectedDate as Date) &&
-              isSameDay(date, this.selectedDate as Date);
-
-            const isDisabled = this.isDateDisabled(date);
-            return html`
-              <button
-                data-testid="${`${this.dataTestid}-Day`}"
-                class="day ${isSelected && !isDisabled
-                  ? "selected"
-                  : ""} ${isDisabled ? "disabled" : ""}"
-                @click=${() => this.handleDateSelect(date)}
-                aria-label=${formatDate(date, "PPP", this.locale)}
-                role="gridcell"
-              >
-                ${date.getDate()}
-              </button>
-            `;
-          })}
-        </div>
-      `;
+    if (!days) {
+      return html``;
     }
+
+    return renderColCalDates({
+      days,
+      selectedDate: this.selectedDate,
+      dataTestid: this.dataTestid,
+      locale: this.locale,
+      isDateDisabled: this.isDateDisabled,
+      handleDateSelect: this.handleDateSelect,
+    });
   }
 }
 
