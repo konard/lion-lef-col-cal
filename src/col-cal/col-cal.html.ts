@@ -112,7 +112,6 @@ export function renderColCal(data: ColCalTemplateData): TemplateResult {
 
       <col-cal-popover
         ${ref(popoverMonthsRef)}
-        position="bottom"
         for="${monthsButtonId}"
         data-testid="${`${dataTestid}-Popover-Months`}"
         @col-cal-show="${handleMonthsChange}"
@@ -131,7 +130,6 @@ export function renderColCal(data: ColCalTemplateData): TemplateResult {
 
       <col-cal-popover
         ${ref(popoverYearsRef)}
-        position="bottom"
         for="${yearsButtonId}"
         data-testid="${`${dataTestid}-Popover-Years`}"
         @col-cal-show="${handleYearsChange}"

@@ -200,7 +200,6 @@ export class ColCal extends LitElement {
 
         <col-cal-popover
           ${ref(this.popoverMonthsRef)}
-          position="bottom"
           for="${this._monthsButtonId}"
           data-testid="${`${this.dataTestid}-Popover-Months`}"
           @col-cal-show="${this.handleMonthsChange}"
@@ -219,7 +218,6 @@ export class ColCal extends LitElement {
 
         <col-cal-popover
           ${ref(this.popoverYearsRef)}
-          position="bottom"
           for="${this._yearsButtonId}"
           data-testid="${`${this.dataTestid}-Popover-Years`}"
           @col-cal-show="${this.handleYearsChange}"
