@@ -1,5 +1,3 @@
-import { css } from "lit";
-
 /**
  * Styles for ColCalPopover component.
  *
@@ -10,7 +8,7 @@ import { css } from "lit";
  * CSS Anchor Positioning is used to position the popover relative to its
  * anchor element (the trigger button).
  */
-export const colCalPopoverStyles = css`
+export const colCalPopoverStyles = `
   :host {
     /* CSS Custom Properties for theming */
     --col-cal-popover-bg: #ffffff;

@@ -1,6 +1,4 @@
-import { css } from "lit";
-
-export const colCalMonthsStyles = css`
+export const colCalMonthsStyles = `
   :host {
     --col-cal-months-padding: 12px;
     --col-cal-months-gap: 12px;

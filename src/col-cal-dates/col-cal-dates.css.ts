@@ -1,6 +1,4 @@
-import { css } from "lit";
-
-export const colCalDatesStyles = css`
+export const colCalDatesStyles = `
   :host {
     --col-cal-day-bg: #ffffff;
     --col-cal-day-hover-bg: #77a6ff;

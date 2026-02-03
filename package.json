@@ -1,6 +1,6 @@
 {
   "name": "col-cal",
-  "version": "2.0.0-alpha.3",
+  "version": "2.0.0-alpha.4",
   "type": "module",
   "main": "./dist/col-cal.js",
   "scripts": {
@@ -14,9 +14,6 @@
     ".": {
       "import": "./dist/col-cal.js"
     }
-  },
-  "dependencies": {
-    "lit": "^3.3.0"
   },
   "devDependencies": {
     "typescript": "~5.8.3",

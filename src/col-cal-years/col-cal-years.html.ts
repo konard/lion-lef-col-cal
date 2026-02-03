@@ -1,5 +1,3 @@
-import { html, type TemplateResult } from "lit";
-
 export interface YearsTemplateData {
   dataTestid: string;
   years: string[];
@@ -10,7 +8,7 @@ export interface YearsTemplateData {
   handleYearSelect: (year: number) => void;
 }
 
-export function renderColCalYears(data: YearsTemplateData): TemplateResult {
+export function renderColCalYears(container: ShadowRoot, data: YearsTemplateData): void {
   const {
     dataTestid,
     years,
@@ -21,41 +19,71 @@ export function renderColCalYears(data: YearsTemplateData): TemplateResult {
     handleYearSelect,
   } = data;
 
-  return html`
-    <div class="year-grid" data-testid="${`${dataTestid}-Grid`}">
-      <div class="navigation" data-testid="${`${dataTestid}-Navigation`}">
-        <button @click=${handlePrev} data-testid="${`${dataTestid}-Button-Prev`}">
-          <slot name="icon-left-button" data-testid="${`${dataTestid}-Button-Left`}">
-            &lt;
-          </slot>
-        </button>
+  const yearGrid = document.createElement("div");
+  yearGrid.className = "year-grid";
+  yearGrid.setAttribute("data-testid", `${dataTestid}-Grid`);
 
-        <button @click=${handleNext} data-testid="${`${dataTestid}-Button-Next`}">
-          <slot name="icon-right-button" data-testid="${`${dataTestid}-Button-NextIcon`}">
-            &gt;
-          </slot>
-        </button>
-      </div>
+  // Create navigation
+  const navigation = document.createElement("div");
+  navigation.className = "navigation";
+  navigation.setAttribute("data-testid", `${dataTestid}-Navigation`);
 
-      <div class="years" data-testid="${`${dataTestid}`}">
-        ${years.map(
-          (year) => html`
-            <div
-              data-testid="${`${dataTestid}-YearCell`}"
-              class="year-cell ${isSelectedYear(year) ? "selected" : ""} ${isYearDisabled(Number(year)) && !isSelectedYear(year) ? "disabled" : ""}"
-              @click=${() => {
-                if (!isYearDisabled(Number(year))) {
-                  handleYearSelect(Number(year));
-                }
-              }}
-              part="year ${isYearDisabled(Number(year)) && !isSelectedYear(year) ? "disabled" : ""}"
-              aria-selected=${isSelectedYear(year)}
-            >
-              ${year}
-            </div>
-          `
-        )}
-      </div>
-    </div>
-  `;
+  // Prev button
+  const prevButton = document.createElement("button");
+  prevButton.addEventListener("click", handlePrev);
+  prevButton.setAttribute("data-testid", `${dataTestid}-Button-Prev`);
+
+  const prevSlot = document.createElement("slot");
+  prevSlot.name = "icon-left-button";
+  prevSlot.setAttribute("data-testid", `${dataTestid}-Button-Left`);
+  prevSlot.innerHTML = "&lt;";
+  prevButton.appendChild(prevSlot);
+  navigation.appendChild(prevButton);
+
+  // Next button
+  const nextButton = document.createElement("button");
+  nextButton.addEventListener("click", handleNext);
+  nextButton.setAttribute("data-testid", `${dataTestid}-Button-Next`);
+
+  const nextSlot = document.createElement("slot");
+  nextSlot.name = "icon-right-button";
+  nextSlot.setAttribute("data-testid", `${dataTestid}-Button-NextIcon`);
+  nextSlot.innerHTML = "&gt;";
+  nextButton.appendChild(nextSlot);
+  navigation.appendChild(nextButton);
+
+  yearGrid.appendChild(navigation);
+
+  // Create years grid
+  const yearsDiv = document.createElement("div");
+  yearsDiv.className = "years";
+  yearsDiv.setAttribute("data-testid", dataTestid);
+
+  years.forEach((year) => {
+    const cell = document.createElement("div");
+    cell.setAttribute("data-testid", `${dataTestid}-YearCell`);
+
+    const classes = ["year-cell"];
+    if (isSelectedYear(year)) classes.push("selected");
+    if (isYearDisabled(Number(year)) && !isSelectedYear(year)) classes.push("disabled");
+    cell.className = classes.join(" ");
+
+    cell.addEventListener("click", () => {
+      if (!isYearDisabled(Number(year))) {
+        handleYearSelect(Number(year));
+      }
+    });
+
+    const partValue = isYearDisabled(Number(year)) && !isSelectedYear(year)
+      ? "year disabled"
+      : "year";
+    cell.setAttribute("part", partValue);
+    cell.setAttribute("aria-selected", String(isSelectedYear(year)));
+    cell.textContent = year;
+
+    yearsDiv.appendChild(cell);
+  });
+
+  yearGrid.appendChild(yearsDiv);
+  container.appendChild(yearGrid);
 }

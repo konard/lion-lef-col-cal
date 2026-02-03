@@ -1,6 +1,4 @@
-import { css } from "lit";
-
-export const colCalYearsStyles = css`
+export const colCalYearsStyles = `
   :host {
     --col-cal-years-padding: 12px;
     --col-cal-years-border-radius: 5px;

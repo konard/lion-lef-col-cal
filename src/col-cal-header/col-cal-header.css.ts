@@ -1,6 +1,4 @@
-import { css } from "lit";
-
-export const colCalHeaderStyles = css`
+export const colCalHeaderStyles = `
   :host {
     --col-cal-header-padding: 0;
     --col-cal-header-days-font-weight: regular;

@@ -1,6 +1,4 @@
-import { css } from "lit";
-
-export const colCalStyles = css`
+export const colCalStyles = `
   .calendar {
     --col-cal-bg: #ffffff;
     --col-cal-radius: 10px;
