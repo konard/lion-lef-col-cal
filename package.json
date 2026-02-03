@@ -15,11 +15,11 @@
       "import": "./dist/col-cal.js"
     }
   },
-  "peerDependencies": {
-    "lit": "^3.0.0"
+  "dependencies": {
+    "lit": "^3.3.0"
   },
   "devDependencies": {
-    "lit": "^3.3.0",
+    "rollup-plugin-minify-template-literals": "^1.1.7",
     "typescript": "~5.8.3",
     "vite": "7.0.6",
     "vite-plugin-dts": "^4.5.4",

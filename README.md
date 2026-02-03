@@ -6,16 +6,14 @@ A lightweight, HTML-friendly web component calendar.
 
 | Metric | Size |
 |--------|------|
-| Component (minified) | 38.68 KB |
-| Component (gzipped) | **8.37 KB** |
+| Minified | 54.95 KB |
+| Gzipped | **14.17 KB** |
 
-*Note: Lit is a peer dependency and not included in the bundle size above.*
+*Lit is bundled with the component.*
 
 ## Installation
 
-```sh
-npm install col-cal lit
-```
+To use this project, you need to install the necessary dependencies. You can do this using npm or yarn.
 
 ### Compile from source
 
@@ -29,15 +27,15 @@ npx vite build
 ## Usage
 
 ```html
-<col-cal locale="en-US"></col-cal>
-<script type="module">
-  import "col-cal";
-</script>
+  <col-cal locale="en-US"></col-cal>
+  <script type="module">
+    import "col-cal";
+  </script>
 ```
 
 ## Dependencies
 
-- **Lit** (peer dependency): A lightweight library for building web components (~5 KB gzipped).
+- **Lit** (bundled): A lightweight library for building web components (~5 KB gzipped).
 
 ## Development
 
