@@ -119,8 +119,12 @@ export class ColCalPopover extends HTMLElement {
   private _setupAnchor(): void {
     requestAnimationFrame(() => {
       if (this._for) {
-        const root = this.getRootNode() as Document | ShadowRoot;
-        this._anchorElement = root.getElementById(this._for);
+        const root = this.getRootNode();
+        // Check if root has getElementById (Document or ShadowRoot, but not Element)
+        if (!("getElementById" in root) || typeof (root as Document | ShadowRoot).getElementById !== "function") {
+          return;
+        }
+        this._anchorElement = (root as Document | ShadowRoot).getElementById(this._for);
         if (this._anchorElement) {
           // Create unique anchor name from the element's ID for CSS anchor positioning
           this._anchorName = `--anchor-${this._for}`;
