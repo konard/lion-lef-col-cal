@@ -12,9 +12,22 @@ export default defineConfig({
         resolve(__dirname, "src/index.ts"),
       ],
       name: "ColCal",
-            formats: ['es'],
+      formats: ['es'],
       fileName: "col-cal"
     },
+    rollupOptions: {
+      // Externalize Lit to reduce bundle size
+      // Consumers need to include Lit separately (peer dependency)
+      external: ['lit', 'lit/decorators.js', 'lit/directives/ref.js'],
+      output: {
+        // Provide global variable names for externalized deps (for UMD builds)
+        globals: {
+          'lit': 'lit',
+          'lit/decorators.js': 'litDecorators',
+          'lit/directives/ref.js': 'litDirectivesRef'
+        }
+      }
+    }
   },
   plugins: [
     dts({
